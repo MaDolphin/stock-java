@@ -21,7 +21,7 @@ public class TestController {
 
     @RequestMapping("/rabbitmq")
     public String hello() {
-        String context = "AAA";
+        String context = "601766";
         sender.send(context);
         return "Hello World!";
     }
