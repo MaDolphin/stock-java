@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="aside">
+    <div id="aside" class="app-aside modal fade folded md nav-expand">
+        <div class="left navside grey dk" layout="column">
+            <div class="navbar no-radius">
+                <!-- brand -->
+                <a class="navbar-brand">
+                    <div ui-include="'../assets/images/logo.svg'"></div>
+                    <img src="../assets/images/logo.png" alt="." class="hide"/>
+                    <span class="hidden-folded inline">Flatkit</span>
+                </a>
+                <!-- / brand -->
+            </div>
+            <div flex="" class="hide-scroll">
+                <nav class="scroll nav-active-primary">
+                    <ul class="nav" ui-nav="">
+                        <li>
+                            <a href="dashboard.html">
+                              <span class="nav-icon">
+                                <i class="material-icons">&#xe3fc;
+                                  <span ui-include="'../assets/images/i_0.svg'"></span>
+                                </i>
+                              </span>
+                                <span class="nav-text">TAB1</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="dashboard.html">
+                              <span class="nav-icon">
+                                <i class="material-icons">&#xe3fc;
+                                  <span ui-include="'../assets/images/i_1.svg'"></span>
+                                </i>
+                              </span>
+                                <span class="nav-text">TAB2</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="dashboard.html">
+                              <span class="nav-icon">
+                                <i class="material-icons">&#xe3fc;
+                                  <span ui-include="'../assets/images/i_2.svg'"></span>
+                                </i>
+                              </span>
+                                <span class="nav-text">TAB3</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="widget.html">
+                              <span class="nav-icon">
+                                <i class="material-icons">&#xe8d2;
+                                  <span ui-include="'../assets/images/i_3.svg'"></span>
+                                </i>
+                              </span>
+                                <span class="nav-text">TAB4</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
