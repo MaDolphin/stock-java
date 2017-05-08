@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <body>
 <div th:fragment="aside">
-    <div id="aside" class="app-aside modal fade folded md nav-expand">
+    <div id="aside" class="app-aside modal fade nav-dropdown folded">
         <div class="left navside grey dk" layout="column">
             <div class="navbar no-radius">
                 <!-- brand -->
@@ -14,11 +14,11 @@
                 </a>
                 <!-- / brand -->
             </div>
-            <div flex="" class="hide-scroll">
-                <nav class="scroll nav-active-primary">
+            <div flex="" class="nav-stacked nav-active-primary">
+                <nav class="scroll nav-light">
                     <ul class="nav" ui-nav="">
                         <li>
-                            <a href="dashboard.html">
+                            <a href="a.html" target="body">
                               <span class="nav-icon">
                                 <i class="material-icons">&#xe3fc;
                                   <span ui-include="'../assets/images/i_0.svg'"></span>

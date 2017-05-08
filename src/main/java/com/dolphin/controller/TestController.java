@@ -32,6 +32,11 @@ public class TestController {
         return "index";
     }
 
+    @RequestMapping("/te")
+    public String Test(Model model) {
+        return "techanjs";
+    }
+
     @RequestMapping("/")
     public String index() {
         return "Index Page";
