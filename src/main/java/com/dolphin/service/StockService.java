@@ -81,7 +81,6 @@ public class StockService {
         SimpleDateFormat sdf = new SimpleDateFormat();
         JSONObject jsonObject = JSONObject.parseObject(str);
         for (Map.Entry<String, Object> entry : jsonObject.entrySet()) {
-//            System.out.println(entry.getKey() + ":" + entry.getValue());
             JSONObject result = jsonObject.getJSONObject(entry.getKey().toString());
             temp = JSONObject.parseObject(result.toJSONString(), HistoryData.class);
             sdf = new SimpleDateFormat("yyyy-MM-dd");
