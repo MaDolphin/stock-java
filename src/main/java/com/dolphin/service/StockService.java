@@ -1,14 +1,20 @@
 package com.dolphin.service;
 
+import com.alibaba.fastjson.JSONObject;
+import com.dolphin.entity.HistoryData;
+import com.dolphin.entity.RealTick;
+import com.dolphin.entity.ResponeRealTick;
 import com.dolphin.entity.TodayTick;
+import com.dolphin.util.Convert;
 import com.dolphin.util.HttpClientUtil;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-import net.sf.json.JSONSerializer;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by I337852 on 5/3/2017.
@@ -16,56 +22,78 @@ import java.util.List;
 @Service("stockService")
 public class StockService {
 
+    private String hostUrl = "http://127.0.0.1:8000/";
+
     public List<TodayTick> getTodayTick(String stockId){
-        String url = "http://127.0.0.1:8000/today_tick/?id=" + stockId;
+        String url = hostUrl + "today_tick/?id=" + stockId;
         String str = HttpClientUtil.get(url);
-        this.json2Javas(str);
-        return null;
+        str = str.replaceAll("\\\\","");
+        str = str.substring(1, str.length());
+        str = str.substring(0,str.length()-1);
+        str = Convert.camelCaseName(str);
+        List<TodayTick> todayTick = new ArrayList<TodayTick>();
+        TodayTick temp = new TodayTick();
+        JSONObject jsonObject = JSONObject.parseObject(str);
+        for (Map.Entry<String, Object> entry : jsonObject.entrySet()) {
+//            System.out.println(entry.getKey() + ":" + entry.getValue());
+            JSONObject result = jsonObject.getJSONObject(entry.getKey().toString());
+            temp = JSONObject.parseObject(result.toJSONString(), TodayTick.class);
+            temp.setIndex(Integer.valueOf(entry.getKey()));
+            String strTemp = temp.getType();
+            strTemp = strTemp.replaceAll("u","\\\\\\u");
+//            System.out.println(strTemp);
+            temp.setType(Convert.decodeUnicode(strTemp));
+            todayTick.add(temp);
+        }
+        return todayTick;
     }
 
-//    public List<TodayTick> json2Javas(String jsons) {
-//        List<TodayTick> todayTicks = getJavaCollection(new TodayTick(), jsons);
-//        System.out.println(todayTicks.size());
-//        for(TodayTick todayTick:todayTicks){
-//            System.out.println("addTime: "+todayTick.getTime());
-//            System.out.println("=========");
-//        }
-//        return todayTicks;
-//    }
-
-    public void json2Javas(String json) {
-        json = "[{\"time\":\"09:25:01\",\"price\":15.16,\"pchange\":\"0.00\",\"change\":0.0,\"volume\":139,\"amount\":210724,\"type\":\"0\"}";
-        if(json.indexOf("[")!=-1){
-            json=json.replace("[", "");
+    public RealTick getRealTick(String stockId){
+        String url = hostUrl + "real_tick/?id=" + stockId;
+        String str = HttpClientUtil.get(url);
+        str = str.replaceAll("\\\\","");
+        str = str.substring(1, str.length());
+        str = str.substring(0,str.length()-1);
+        str = Convert.camelCaseName(str);
+        RealTick realTick = null;
+        JSONObject jsonObject = JSONObject.parseObject(str);
+        for (Map.Entry<String, Object> entry : jsonObject.entrySet()) {
+//            System.out.println(entry.getKey() + ":" + entry.getValue());
+            JSONObject result = jsonObject.getJSONObject(entry.getKey().toString());
+            realTick = JSONObject.parseObject(result.toJSONString(), RealTick.class);
+            String strTemp = realTick.getName();
+            strTemp = strTemp.replaceAll("u","\\\\\\u");
+//            System.out.println(strTemp);
+            realTick.setName(Convert.decodeUnicode(strTemp));
         }
-        if(json.indexOf("]")!=-1){
-            json=json.replace("]", "");
-        }
-        JSONObject obj=new JSONObject().fromObject(json);
-        TodayTick todayTick=(TodayTick) JSONObject.toBean(obj, TodayTick.class);
-        System.out.println(todayTick.getTime());
+        return realTick;
     }
 
-    private <T> List<T> getJavaCollection(T clazz, String jsons) {
-        if(jsons.indexOf("[")!=-1){
-            jsons=jsons.replace("[", "");
-        }
-        if(jsons.indexOf("]")!=-1){
-            jsons=jsons.replace("]", "");
-        }
-        jsons = jsons.replaceAll("\\\\","");
-        System.out.println(jsons);
-        List<T> objs = null;
-        JSONArray jsonArray = (JSONArray) JSONSerializer.toJSON(jsons);
-        if (jsonArray != null) {
-            objs = new ArrayList<T>();
-            List list = (List) JSONSerializer.toJava(jsonArray);
-            for (Object o : list) {
-                JSONObject jsonObject = JSONObject.fromObject(o);
-                T obj = (T) JSONObject.toBean(jsonObject, clazz.getClass());
-                objs.add(obj);
+    public List<HistoryData> getHistoryData(String stockId){
+        String url = hostUrl + "history_data/?id=" + stockId;
+        String str = HttpClientUtil.get(url);
+        str = str.replaceAll("\\\\","");
+        str = str.substring(1, str.length());
+        str = str.substring(0,str.length()-1);
+        str = Convert.camelCaseName(str);
+        List<HistoryData> historyData = new ArrayList<HistoryData>();
+        HistoryData temp = new HistoryData();
+        SimpleDateFormat sdf = new SimpleDateFormat();
+        JSONObject jsonObject = JSONObject.parseObject(str);
+        for (Map.Entry<String, Object> entry : jsonObject.entrySet()) {
+//            System.out.println(entry.getKey() + ":" + entry.getValue());
+            JSONObject result = jsonObject.getJSONObject(entry.getKey().toString());
+            temp = JSONObject.parseObject(result.toJSONString(), HistoryData.class);
+            sdf = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                temp.setDate(sdf.parse(entry.getKey()));
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
+            System.out.println(temp.getDate().toString());
+            historyData.add(temp);
         }
-        return objs;
+        return historyData;
     }
+
 }
