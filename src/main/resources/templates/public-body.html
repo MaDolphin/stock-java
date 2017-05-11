@@ -17,7 +17,7 @@
                         <!--</div>-->
                         <div class="box-body" style="padding: 0px">
 
-                            <div id="report" style="height:90px;padding-top:5px;padding-bottom: 5px;"></div>
+                            <div id="report" style="height:90px;padding-top:5px;padding-bottom: 5px;padding-left: 30px"></div>
                             <div id="container" style="min-height: 550px;min-width: 100%"></div>
 
                         </div>
@@ -33,8 +33,8 @@
                                     <thead >
                                     <tr>
                                         <th>&nbsp;</th>
-                                        <th>价格</th>
-                                        <th>数量</th>
+                                        <th>价格(￥)</th>
+                                        <th>数量(笔)</th>
                                     </tr>
                                     </thead>
                                     <tbody id="tableBody">
@@ -118,16 +118,16 @@
             dataType: "json",
             success : function(response) {
 
-                var thtml = "<tr><td>买1</td><td>"+response.b1V+"</td><td>"+response.b1P+"</td></tr>";
-                thtml += "<tr><td>买2</td><td>"+response.b2V+"</td><td>"+response.b2P+"</td></tr>";
-                thtml += "<tr><td>买3</td><td>"+response.b3V+"</td><td>"+response.b3P+"</td></tr>";
-                thtml += "<tr><td>买4</td><td>"+response.b4V+"</td><td>"+response.b4P+"</td></tr>";
-                thtml += "<tr><td>买5</td><td>"+response.b5V+"</td><td>"+response.b5P+"</td></tr>";
-                thtml += "<tr><td>卖1</td><td>"+response.a1V+"</td><td>"+response.a1P+"</td></tr>";
-                thtml += "<tr><td>卖2</td><td>"+response.a2V+"</td><td>"+response.a2P+"</td></tr>";
-                thtml += "<tr><td>卖3</td><td>"+response.a3V+"</td><td>"+response.a3P+"</td></tr>";
-                thtml += "<tr><td>卖4</td><td>"+response.a4V+"</td><td>"+response.a4P+"</td></tr>";
-                thtml += "<tr><td>卖5</td><td>"+response.a5V+"</td><td>"+response.a5P+"</td></tr>";
+                var thtml = "<tr><td>买1</td><td>"+response.b1P+"</td><td>"+response.b1V+"</td></tr>";
+                thtml += "<tr><td>买2</td><td>"+response.b2P+"</td><td>"+response.b2V+"</td></tr>";
+                thtml += "<tr><td>买3</td><td>"+response.b3P+"</td><td>"+response.b3V+"</td></tr>";
+                thtml += "<tr><td>买4</td><td>"+response.b4P+"</td><td>"+response.b4V+"</td></tr>";
+                thtml += "<tr><td>买5</td><td>"+response.b5P+"</td><td>"+response.b5V+"</td></tr>";
+                thtml += "<tr><td>卖1</td><td>"+response.a1P+"</td><td>"+response.a1V+"</td></tr>";
+                thtml += "<tr><td>卖2</td><td>"+response.a2P+"</td><td>"+response.a2V+"</td></tr>";
+                thtml += "<tr><td>卖3</td><td>"+response.a3P+"</td><td>"+response.a3V+"</td></tr>";
+                thtml += "<tr><td>卖4</td><td>"+response.a4P+"</td><td>"+response.a4V+"</td></tr>";
+                thtml += "<tr><td>卖5</td><td>"+response.a5P+"</td><td>"+response.a5V+"</td></tr>";
 
                 document.getElementById("tableBody").innerHTML = thtml;
             },
@@ -226,7 +226,6 @@
                 alert('Failed!: ' + e);
             }
         });
-
 
     });
 </script>
