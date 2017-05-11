@@ -1,6 +1,8 @@
 package com.dolphin.controller;
 
 import com.dolphin.entity.HistoryData;
+import com.dolphin.entity.RealTick;
+import com.dolphin.entity.RestHistoryData;
 import com.dolphin.service.StockService;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,9 +20,31 @@ public class StockRestController {
     private StockService stockService;
 
     @RequestMapping(value = "/getRestHistoryData/{stockId}", method = RequestMethod.GET)
-    public List getRestHistoryData(@PathVariable(value="stockId") String stockId) {
+    public RestHistoryData getRestHistoryData(@PathVariable(value="stockId") String stockId) {
         List<HistoryData> historyDataList = stockService.getHistoryData(stockId);
-
-        return null;
+        RealTick realTick = stockService.getRealTick(stockId);
+        String vl = "";
+        for (int i =0; i<historyDataList.size(); i++){
+            vl = vl + historyDataList.get(i).getDate().getTime() + "^";
+            vl = vl + historyDataList.get(i).getOpen() + "^";
+            vl = vl + historyDataList.get(i).getHigh() + "^";
+            vl = vl + historyDataList.get(i).getLow() + "^";
+            vl = vl + historyDataList.get(i).getClose() + "^";
+            vl = vl + historyDataList.get(i).getVolume() + "^";
+            vl = vl + "null" + "^";
+            vl = vl + historyDataList.get(i).getPriceChange() + "^";
+            vl = vl + historyDataList.get(i).getTurnover() + "^";
+            vl = vl + historyDataList.get(i).getMa5() + "^";
+            vl = vl + historyDataList.get(i).getMa10() + "^";
+            vl = vl + historyDataList.get(i).getMa20() + "^";
+            vl = vl + "null" + "^";
+            vl = vl + historyDataList.get(i).getClose() + "^";
+            vl = vl + "null" + "~";
+        }
+        RestHistoryData restHistoryData = new RestHistoryData();
+        restHistoryData.setVl(vl);
+        restHistoryData.setCcode(stockId);
+        restHistoryData.setCname(realTick.getName());
+        return restHistoryData;
     }
 }
