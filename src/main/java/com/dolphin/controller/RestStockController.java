@@ -31,7 +31,7 @@ public class RestStockController {
             vl = vl + historyDataList.get(i).getHigh() + "^";
             vl = vl + historyDataList.get(i).getLow() + "^";
             vl = vl + Math.round(historyDataList.get(i).getVolume()) + "^";
-            vl = vl + "0" + "^";
+            vl = vl + Math.round(historyDataList.get(i).getVolume()) + "^";
 //            vl = vl + "null" + "^";
             vl = vl + historyDataList.get(i).getpChange() + "^";
             vl = vl + historyDataList.get(i).getPriceChange() + "^";
@@ -39,8 +39,9 @@ public class RestStockController {
             vl = vl + historyDataList.get(i).getClose() + "^";
             vl = vl + historyDataList.get(i).getMa5() + "^";
             vl = vl + historyDataList.get(i).getMa10() + "^";
-            vl = vl + historyDataList.get(i).getMa20() + "^";
             vl = vl + "null" + "^";
+            vl = vl + historyDataList.get(i).getMa20() + "^";
+
             vl = vl + "null" + "~";
         }
         RestHistoryData restHistoryData = new RestHistoryData();

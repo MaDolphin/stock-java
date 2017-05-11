@@ -231,7 +231,7 @@
             url : "/restStock/getRestHistoryData/600000",
             dataType: "json",
             success : function(response) {
-                new highStockChart('container',retTrade,crrentData);
+                new highStockChart('container',response,crrentData);
             },
             error : function(e) {
                 alert('Failed!: ' + e);
