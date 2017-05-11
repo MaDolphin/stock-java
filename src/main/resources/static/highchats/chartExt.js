@@ -367,7 +367,7 @@ var highStockChart = function(divID,result,crrentData){
 			   y = (this.points[1].point.y*0.0001).toFixed(2);
 			   MA5 =this.points[2].y.toFixed(2);
 			   MA10 =this.points[3].y.toFixed(2);
-			   MA30 =this.points[4].y.toFixed(2);
+			   MA20 =this.points[4].y.toFixed(2);
 			   relativeWidth = this.points[0].point.shapeArgs.x;
 			   var stockName = this.points[0].series.name;
 		      var tip= '<b>'+ Highcharts.dateFormat('%Y-%m-%d  %A', this.x) +'</b><br/>';
@@ -417,7 +417,7 @@ var highStockChart = function(divID,result,crrentData){
               		+'  <span style="padding-left:25px;">日期：</span>'+	Highcharts.dateFormat('%Y-%m-%d',this.x)
               		+'	<br/><b style="color:#1aadce;padding-left:25px">MA5</b> '+ MA5
               		+'  <b style="color: #8bbc21;padding-left:150px">MA10 </b> '+ MA10
-              		+'  <b style="color:#910000;padding-left:150px">MA30</b> '+ MA30
+              		+'  <b style="color:#910000;padding-left:150px">MA20</b> '+ MA20
               		);
     		  return tip;
 		   },
@@ -538,27 +538,30 @@ var highStockChart = function(divID,result,crrentData){
 	        dataGrouping: {
 				enabled: false
 			}
-	    },{
+	    },
+			{
 	        type: 'spline',
 	        name: 'MA10',
 	        data: MA10Array,
 	        color:'#8bbc21',
-	        threshold: null, 
+	        threshold: null,
 	        lineWidth:1,
 	        dataGrouping: {
 				enabled: false
 			}
-	    },{
+	    },
+			{
 	        type: 'spline',
-	        name: 'MA30',
-	        data: MA30Array,
+	        name: 'MA20',
+	        data: MA20Array,
 	        color:'#910000',
-	        threshold: null, 
+	        threshold: null,
 	        lineWidth:1,
 	        dataGrouping: {
 				enabled: false
 			}
-	    },{
+	    },
+			{
 	    	 type : 'flags',
 	           cursor:'pointer',
 	           style:{
