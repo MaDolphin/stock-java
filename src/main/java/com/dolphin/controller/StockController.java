@@ -28,6 +28,7 @@ public class StockController {
 
     @RequestMapping("/index")
     public String Index(Model model) {
+
 //        model.addAttribute("name", "Dolphin");
         return "index";
     }

@@ -95,4 +95,13 @@ public class StockService {
         return historyData;
     }
 
+    public String getHistoryDatatoString(String stockId){
+        String traget = null;
+        List<HistoryData> list = this.getHistoryData(stockId);
+        for(int i=0;i<list.size();i++){
+
+        }
+        return traget;
+    }
+
 }
