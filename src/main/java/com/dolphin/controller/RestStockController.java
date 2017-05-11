@@ -14,7 +14,7 @@ import java.util.List;
  */
 @RequestMapping("/restStock")
 @RestController
-public class StockRestController {
+public class RestStockController {
 
     @Resource
     private StockService stockService;
@@ -47,4 +47,11 @@ public class StockRestController {
         restHistoryData.setCname(realTick.getName());
         return restHistoryData;
     }
+
+    @RequestMapping(value = "/getRestRealTick/{stockId}", method = RequestMethod.GET)
+    public RealTick getRestRealTick(@PathVariable(value="stockId") String stockId) {
+        return stockService.getRealTick(stockId);
+    }
+
+
 }

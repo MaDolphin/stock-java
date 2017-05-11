@@ -51,4 +51,14 @@ public class RestHistoryData {
     public void setCname(String cname) {
         this.cname = cname;
     }
+
+    @Override
+    public String toString() {
+        return "RestHistoryData{" +
+                "vl='" + vl + '\'' +
+                ", ccode='" + ccode + '\'' +
+                ", tag='" + tag + '\'' +
+                ", cname='" + cname + '\'' +
+                '}';
+    }
 }

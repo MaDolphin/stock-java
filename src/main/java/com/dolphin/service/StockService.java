@@ -3,7 +3,6 @@ package com.dolphin.service;
 import com.alibaba.fastjson.JSONObject;
 import com.dolphin.entity.HistoryData;
 import com.dolphin.entity.RealTick;
-import com.dolphin.entity.ResponeRealTick;
 import com.dolphin.entity.TodayTick;
 import com.dolphin.util.Convert;
 import com.dolphin.util.HttpClientUtil;
@@ -65,6 +64,10 @@ public class StockService {
             strTemp = strTemp.replaceAll("u","\\\\\\u");
 //            System.out.println(strTemp);
             realTick.setName(Convert.decodeUnicode(strTemp));
+//            int a = realTick.getB1V();
+//            String c = String.valueOf(System.currentTimeMillis());
+//            String b = String.valueOf(System.currentTimeMillis()).substring(10,12);
+//            realTick.setB1V(a + Integer.parseInt(b));
         }
         return realTick;
     }
