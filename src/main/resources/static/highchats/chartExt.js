@@ -538,8 +538,7 @@ var highStockChart = function(divID,result,crrentData){
 	        dataGrouping: {
 				enabled: false
 			}
-	    },
-			{
+	    },{
 	        type: 'spline',
 	        name: 'MA10',
 	        data: MA10Array,
@@ -549,8 +548,7 @@ var highStockChart = function(divID,result,crrentData){
 	        dataGrouping: {
 				enabled: false
 			}
-	    },
-			{
+	    },{
 	        type: 'spline',
 	        name: 'MA20',
 	        data: MA20Array,
@@ -560,8 +558,7 @@ var highStockChart = function(divID,result,crrentData){
 	        dataGrouping: {
 				enabled: false
 			}
-	    },
-			{
+	    },{
 	    	 type : 'flags',
 	           cursor:'pointer',
 	           style:{

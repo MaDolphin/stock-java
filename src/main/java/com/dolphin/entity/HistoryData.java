@@ -5,8 +5,9 @@ import java.util.Date;
 /**
  * Created by huang on 2017/5/8.
  */
-public class HistoryData {
+public class HistoryData implements Comparable<HistoryData> {
     private Date date;
+
     private double open;
     private double high;
     private double close;
@@ -184,4 +185,10 @@ public class HistoryData {
                 ", turnover=" + turnover +
                 '}';
     }
+
+    @Override
+    public int compareTo(HistoryData historyData) {
+       return Long.valueOf(this.getDate().getTime()).compareTo(historyData.getDate().getTime());
+    }
+
 }

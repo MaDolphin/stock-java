@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * Created by I337852 on 5/3/2017.
  */
-public class TodayTick {
+public class TodayTick implements Comparable<TodayTick> {
     private int index;
     private String time;
     private double price;
@@ -107,5 +107,10 @@ public class TodayTick {
                 ", amount=" + amount +
                 ", type='" + type + '\'' +
                 '}';
+    }
+
+    @Override
+    public int compareTo(TodayTick todayTick) {
+        return Long.valueOf(this.getIndex()).compareTo(Long.valueOf(todayTick.getIndex()));
     }
 }

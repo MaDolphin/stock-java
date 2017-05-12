@@ -11,8 +11,41 @@ a.setAttribute(b,c):a&&a.getAttribute&&(e=a.getAttribute(b));else if(t(b)&&fa(b)
 function ga(a,b){var c=function(){};c.prototype=new a;v(c.prototype,b);return c}function Ia(a,b,c,d){var e=F.lang,a=+a||0,f=b===-1?(a.toString().split(".")[1]||"").length:isNaN(b=M(b))?2:b,b=c===void 0?e.decimalPoint:c,d=d===void 0?e.thousandsSep:d,e=a<0?"-":"",c=String(I(a=M(a).toFixed(f))),g=c.length>3?c.length%3:0;return e+(g?c.substr(0,g)+d:"")+c.substr(g).replace(/(\d{3})(?=\d)/g,"$1"+d)+(f?b+M(a-c).toFixed(f).slice(2):"")}function Qa(a,b){return Array((b||2)+1-String(a).length).join(0)+a}function O(a,
 b,c){var d=a[b];a[b]=function(){var a=Array.prototype.slice.call(arguments);a.unshift(d);return c.apply(this,a)}}function Ja(a,b){for(var c="{",d=!1,e,f,g,h,i,k=[];(c=a.indexOf(c))!==-1;){e=a.slice(0,c);if(d){f=e.split(":");g=f.shift().split(".");i=g.length;e=b;for(h=0;h<i;h++)e=e[g[h]];if(f.length)f=f.join(":"),g=/\.([0-9])/,h=F.lang,i=void 0,/f$/.test(f)?(i=(i=f.match(g))?i[1]:-1,e!==null&&(e=Ia(e,i,h.decimalPoint,f.indexOf(",")>-1?h.thousandsSep:""))):e=ua(f,e)}k.push(e);a=a.slice(c+1);c=(d=!d)?
 "}":"{"}k.push(a);return k.join("")}function rb(a){return V.pow(10,S(V.log(a)/V.LN10))}function sb(a,b,c,d){var e,c=o(c,1);e=a/c;b||(b=[1,2,2.5,5,10],d&&d.allowDecimals===!1&&(c===1?b=[1,2,5,10]:c<=0.1&&(b=[1/c])));for(d=0;d<b.length;d++)if(a=b[d],e<=(b[d]+(b[d+1]||b[d]))/2)break;a*=c;return a}function Lb(){this.symbol=this.color=0}function tb(a,b){var c=a.length,d,e;for(e=0;e<c;e++)a[e].ss_i=e;a.sort(function(a,c){d=b(a,c);return d===0?a.ss_i-c.ss_i:d});for(e=0;e<c;e++)delete a[e].ss_i}function Ra(a){for(var b=
-a.length,c=a[0];b--;)a[b]<c&&(c=a[b]);return c}function Ba(a){for(var b=a.length,c=a[0];b--;)a[b]>c&&(c=a[b]);return c}function Ka(a,b){for(var c in a)a[c]&&a[c]!==b&&a[c].destroy&&a[c].destroy(),delete a[c]}function Sa(a){hb||(hb=$(Ta));a&&hb.appendChild(a);hb.innerHTML=""}function qa(a,b){var c="Highcharts error #"+a+": www.highcharts.com/errors/"+a;if(b)throw c;else X.console&&console.log(c)}function ha(a){return parseFloat(a.toPrecision(14))}function Ya(a,b){Ca=o(a,b.animation)}function Mb(){var a=
-F.global.useUTC,b=a?"getUTC":"get",c=a?"setUTC":"set";La=(a&&F.global.timezoneOffset||0)*6E4;ib=a?Date.UTC:function(a,b,c,g,h,i){return(new Date(a,b,o(c,1),o(g,0),o(h,0),o(i,0))).getTime()};ub=b+"Minutes";vb=b+"Hours";wb=b+"Day";Ua=b+"Date";jb=b+"Month";kb=b+"FullYear";Nb=c+"Minutes";Ob=c+"Hours";xb=c+"Date";Pb=c+"Month";Qb=c+"FullYear"}function Z(){}function Za(a,b,c,d){this.axis=a;this.pos=b;this.type=c||"";this.isNew=!0;!c&&!d&&this.addLabel()}function L(){this.init.apply(this,arguments)}function va(){this.init.apply(this,
+        a.length, c = a[0]; b--;)a[b] < c && (c = a[b]);
+        return c
+    }
+
+    function Ba(a) {
+        for (var b = a.length, c = a[0]; b--;)a[b] > c && (c = a[b]);
+        return c
+    }
+
+    function Ka(a, b) {
+        for (var c in a)a[c] && a[c] !== b && a[c].destroy && a[c].destroy(), delete a[c]
+    }
+
+    function Sa(a) {
+        hb || (hb = $(Ta));
+        a && hb.appendChild(a);
+        hb.innerHTML = ""
+    }
+
+    function qa(a, b) {
+        var c = "Highcharts error #" + a + ": www.highcharts.com/errors/" + a;
+        if (b)throw c; else X.console && console.log(c)
+    }
+
+    function ha(a) {
+        return parseFloat(a.toPrecision(14))
+    }
+
+    function Ya(a, b) {
+        Ca = o(a, b.animation)
+    }
+
+    function Mb() {
+        var a =
+            F.global.useUTC,b=a?"getUTC":"get",c=a?"setUTC":"set";La=(a&&F.global.timezoneOffset||0)*6E4;ib=a?Date.UTC:function(a,b,c,g,h,i){return(new Date(a,b,o(c,1),o(g,0),o(h,0),o(i,0))).getTime()};ub=b+"Minutes";vb=b+"Hours";wb=b+"Day";Ua=b+"Date";jb=b+"Month";kb=b+"FullYear";Nb=c+"Minutes";Ob=c+"Hours";xb=c+"Date";Pb=c+"Month";Qb=c+"FullYear"}function Z(){}function Za(a,b,c,d){this.axis=a;this.pos=b;this.type=c||"";this.isNew=!0;!c&&!d&&this.addLabel()}function L(){this.init.apply(this,arguments)}function va(){this.init.apply(this,
 arguments)}function Rb(a,b,c,d,e){var f=a.chart.inverted;this.axis=a;this.isNegative=c;this.options=b;this.x=d;this.total=null;this.points={};this.stack=e;this.alignOptions={align:b.align||(f?c?"left":"right":"center"),verticalAlign:b.verticalAlign||(f?"middle":c?"bottom":"top"),y:o(b.y,f?4:c?14:-6),x:o(b.x,f?c?-6:6:0)};this.textAlign=b.textAlign||(f?c?"right":"left":"center")}function yb(a){var b=a.options,c=b.navigator,d=c.enabled,b=b.scrollbar,e=b.enabled,f=d?c.height:0,g=e?b.height:0;this.handles=
 [];this.scrollbarButtons=[];this.elementsToDestroy=[];this.chart=a;this.setBaseSeries();this.height=f;this.scrollbarHeight=g;this.scrollbarEnabled=e;this.navigatorEnabled=d;this.navigatorOptions=c;this.scrollbarOptions=b;this.outlineHeight=f+g;this.init()}function zb(a){this.init(a)}var r,B=document,X=window,V=Math,s=V.round,S=V.floor,Va=V.ceil,w=V.max,z=V.min,M=V.abs,da=V.cos,ia=V.sin,ra=V.PI,Ma=ra*2/360,Da=navigator.userAgent,Sb=X.opera,Ha=/msie/i.test(Da)&&!Sb,lb=B.documentMode===8,mb=/AppleWebKit/.test(Da),
 $a=/Firefox/.test(Da),cb=/(Mobile|Android|Windows Phone)/.test(Da),Ea="http://www.w3.org/2000/svg",ca=!!B.createElementNS&&!!B.createElementNS(Ea,"svg").createSVGRect,Yb=$a&&parseInt(Da.split("Firefox/")[1],10)<4,ja=!ca&&!Ha&&!!B.createElement("canvas").getContext,Wa,ab,Tb={},Ab=0,hb,F,ua,Ca,Bb,H,na=function(){},aa=[],db=0,Ta="div",Y="none",Zb=/^[0-9]+$/,$b="stroke-width",ib,La,ub,vb,wb,Ua,jb,kb,Nb,Ob,xb,Pb,Qb,C={},P=X.Highcharts=X.Highcharts?qa(16,!0):{};ua=function(a,b,c){if(!t(b)||isNaN(b))return"Invalid date";
