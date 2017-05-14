@@ -13,13 +13,13 @@
                     <div class="b-b b-primary nav-active-primary">
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
-                                <a class="nav-link active" href="" data-toggle="tab" data-target="#tab1">Pages</a>
+                                <a class="nav-link active" href="" data-toggle="tab" data-target="#tab1">历史行情</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="" data-toggle="tab" data-target="#tab2">Components</a>
+                                <a class="nav-link" href="" data-toggle="tab" data-target="#tab2">实时行情</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="" data-toggle="tab" data-target="#tab3">UI Kits</a>
+                                <a class="nav-link" href="" data-toggle="tab" data-target="#tab3">行情预测</a>
                             </li>
                         </ul>
                     </div>
@@ -34,7 +34,11 @@
                             </div>
                         </div>
                         <div class="tab-pane animated fadeIn text-muted" id="tab2">
-                            Components
+                            <div class="box">
+                                <div class="box-body" style="padding: 0px">
+                                    <div id="containerCurrent" style="min-height: 530px;min-width: 100%"></div>
+                                </div>
+                            </div>
                         </div>
                         <div class="tab-pane animated fadeIn text-muted" id="tab3">
                             UI kits
@@ -46,6 +50,17 @@
                 <div class="col-md-12 col-xl-3">
                     <div class="col">
                         <div class="col-xs-12">
+                            <div class="box p-a" style="margin-bottom: 10px">
+                                <div class=" pull-left m-r">
+                                    <h1 class="_800 l-s-n-x inline m-r-sm">浦发银行</h1>
+
+                                </div>
+                                <div class="clear">
+                                    <h2 class="m-a-0 text-md _600">&nbsp;</h2>
+                                    <td >600000</td>
+                                </div>
+
+                            </div>
                             <div class="box">
 
                                 <div class="box-divider m-a-0"></div>
@@ -66,52 +81,33 @@
                         </div>
 
                         <div class="col-xs-12">
-                            <div class="box">
-                                <div class="box-header">
-                                    <h3>Your Sales</h3>
-                                    <small>A general overview of your sales</small>
+                            <!--<div class="box">-->
+                                <!--&lt;!&ndash;<div class="box-header">&ndash;&gt;-->
+                                    <!--&lt;!&ndash;<h3>Your Sales</h3>&ndash;&gt;-->
+                                    <!--&lt;!&ndash;<small>A general overview of your sales</small>&ndash;&gt;-->
+                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                <!--<h1 class="_800 l-s-n-4x inline m-r-sm">5,600</h1>-->
+                                <!--<span class="inline l-h-1x">-->
+                                  <!--Markets <br>-->
+                                  <!--<small class="text-muted">From africa to asia</small>-->
+                                <!--</span>-->
+
+                            <!--</div>-->
+
+                            <div class="box p-a">
+                                <div class=" pull-left m-r ">
+                                    <i class="fa fa-jpy text-success" style="font-size: 36px; ;padding-right: 10px;padding-left: 20px"></i><h1 class="_800 l-s-n-4x inline m-r-sm text-success">7530</h1>
+
                                 </div>
-                                <div class="box-tool">
-                                    <ul class="nav">
-                                        <li class="nav-item inline">
-                                            <a class="nav-link">
-                                                <i class="material-icons md-18">&#xe863;</i>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item inline dropdown">
-                                            <a class="nav-link" data-toggle="dropdown">
-                                                <i class="material-icons md-18">&#xe5d4;</i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-scale pull-right">
-                                                <a class="dropdown-item" href="">This week</a>
-                                                <a class="dropdown-item" href="">This month</a>
-                                                <a class="dropdown-item" href="">This week</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item">Today</a>
-                                            </div>
-                                        </li>
-                                    </ul>
+                                <div class="clear">
+                                    <h2 class="m-a-0 text-md _600">&nbsp;</h2>
+                                    <td class="text-success">
+                                        <i class="fa fa-arrow-down text-success"></i><a class="text-success">40%</a>
+                                    </td>
                                 </div>
-                                <div class="box-body">
-                                    <div ui-jp="plot" ui-refresh="app.setting.color" ui-options="
-                                  [
-                                    { data: [[1, 2], [2, 4], [3, 5], [4, 7], [5, 6], [6, 4], [7, 5], [8, 4]] },
-                                    { data: [[1, 2], [2, 3], [3, 2], [4, 5], [5, 4], [6, 3], [7, 4], [8, 2]] }
-                                  ],
-                                  {
-                                    bars: { show: true, fill: true,  barWidth: 0.3, lineWidth: 2, order: 1, fillColor: { colors: [{ opacity: 0.2 }, { opacity: 0.2}] }, align: 'center'},
-                                    colors: ['#0cc2aa','#fcc100'],
-                                    series: { shadowSize: 3 },
-                                    xaxis: { show: true, font: { color: '#ccc' }, position: 'bottom' },
-                                    yaxis:{ show: true, font: { color: '#ccc' }},
-                                    grid: { hoverable: true, clickable: true, borderWidth: 0, color: 'rgba(120,120,120,0.5)' },
-                                    tooltip: true,
-                                    tooltipOpts: { content: '%x.0 is %y.4',  defaultTheme: false, shifts: { x: 0, y: -40 } }
-                                  }
-                                " style="height:200px">
-                                    </div>
-                                </div>
+
                             </div>
+
                         </div>
 
                     </div>
@@ -130,7 +126,7 @@
 <script src="../highchats/chartExt.js"></script>
 <script src="../highchats/dark-unica.js"></script>
 <script>
-    //绘制K线图
+
     function dataRefresh(){
         $.ajax({
             type : "GET",
@@ -157,7 +153,7 @@
         });
     }
 
-    $(function tradeChart() {
+    $(function Chart() {
 //        {日期^1开盘价^2收盘价^3最高价^4最低价^5成交量^MA5^MA10^MA20^MA30}
         var crrentData =[];
 //        {日期^1开盘价^2收盘价^3最高价^4最低价^5成交量^6成交额^7涨跌幅^8涨跌额^9换手率^10昨日收盘价^11MA5^12MA10^13MA20^14MA30^15MA60}
@@ -234,8 +230,8 @@
         dataRefresh();
 //        setInterval('dataRefresh()',5000);
         $.ajax({
-            type : "GET",
-            url : "/restStock/getRestHistoryData/600000",
+            type: "GET",
+            url: "/restStock/getRestHistoryData/600000",
             dataType: "json",
             success : function(response) {
                 new highStockChart('container',response,crrentData);
@@ -244,8 +240,71 @@
                 alert('Failed!: ' + e);
             }
         });
+        $.ajax({
+            type: "GET",
+            url: "/restStock/getRestTodayTick/600000",
+            dataType: "json",
+            success : function(response) {
+                alert(response.size)
+                new currentChart(response);
+            },
+            error : function(e) {
+                alert('Failed!: ' + e);
+            }
+        });
 
     });
+
+    function currentChart(series) {
+        Highcharts.setOptions({
+            global: {
+                useUTC: false
+            }
+        });
+        // Create the chart
+        $('#containerCurrent').highcharts('StockChart', {
+            chart: {
+                events: {
+                    load : function () {
+                        // set up the updating of the chart each second
+                        var series = this.series[0];
+                        setInterval(function () {
+                            var x = (new Date()).getTime(), // current time
+                                y = Math.round(Math.random() * 100);
+                            series.addPoint([x, y], true, true);
+                        }, 1000);
+                    }
+                }
+            },
+            rangeSelector: {
+                buttons: [{
+                    count: 1,
+                    type: 'minute',
+                    text: '1M'
+                }, {
+                    count: 5,
+                    type: 'minute',
+                    text: '5M'
+                }, {
+                    type: 'all',
+                    text: 'All'
+                }],
+                inputEnabled: false,
+                selected: 0
+            },
+            title: {
+                text : 'Live random data'
+            },
+            exporting: {
+                enabled: false
+            },
+            series: [{
+                name: 'Random data',
+//
+            }]
+        });
+    }
+
 </script>
 </body>
 </html>
