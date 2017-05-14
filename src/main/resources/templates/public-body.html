@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<body>
 
+<body>
 <div th:fragment="body">
     <div ui-view="" class="app-body" id="view" style="padding-left: 80px">
 
@@ -10,20 +10,39 @@
         <div class="padding" style="padding-left: 0px">
             <div class="row">
                 <div class="col-md-12 col-xl-9">
+                    <div class="b-b b-primary nav-active-primary">
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="" data-toggle="tab" data-target="#tab1">Pages</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="" data-toggle="tab" data-target="#tab2">Components</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="" data-toggle="tab" data-target="#tab3">UI Kits</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-content p-a m-b-md" style="padding: 0px">
+                        <div class="tab-pane animated fadeIn text-muted active" id="tab1">
+                            <div class="box">
+                                <div class="box-body" style="padding: 0px">
+                                    <div id="report" style="height:90px;padding-top:5px;padding-bottom: 5px;padding-left: 30px"></div>
+                                    <div id="container" style="min-height: 530px;min-width: 100%"></div>
 
-                    <div class="box">
-                        <!--<div class="box-header">-->
-                            <!--&lt;!&ndash;<h3>Your projects</h3>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<small>Calculated in last 30 days</small>&ndash;&gt;-->
-                        <!--</div>-->
-                        <div class="box-body" style="padding: 0px">
-
-                            <div id="report" style="height:90px;padding-top:5px;padding-bottom: 5px;padding-left: 30px"></div>
-                            <div id="container" style="min-height: 550px;min-width: 100%"></div>
-
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane animated fadeIn text-muted" id="tab2">
+                            Components
+                        </div>
+                        <div class="tab-pane animated fadeIn text-muted" id="tab3">
+                            UI kits
                         </div>
                     </div>
+
                 </div>
+
                 <div class="col-md-12 col-xl-3">
                     <div class="col">
                         <div class="col-xs-12">
@@ -31,13 +50,13 @@
 
                                 <div class="box-divider m-a-0"></div>
                                 <table class="table">
-                                    <thead >
+                                    <thead>
                                     <tr>
                                         <th>&nbsp;</th>
                                         <th>价格(￥)</th>
                                         <th>数量(笔)</th>
                                     </tr>
-                                    </thead>
+                                    </thead >
                                     <tbody id="tableBody">
 
                                     </tbody>
@@ -119,16 +138,16 @@
             dataType: "json",
             success : function(response) {
 
-                var thtml = "<tr><td>买1</td><td>"+response.b1P+"</td><td>"+response.b1V+"</td></tr>";
-                thtml += "<tr><td>买2</td><td>"+response.b2P+"</td><td>"+response.b2V+"</td></tr>";
-                thtml += "<tr><td>买3</td><td>"+response.b3P+"</td><td>"+response.b3V+"</td></tr>";
-                thtml += "<tr><td>买4</td><td>"+response.b4P+"</td><td>"+response.b4V+"</td></tr>";
-                thtml += "<tr><td>买5</td><td>"+response.b5P+"</td><td>"+response.b5V+"</td></tr>";
-                thtml += "<tr><td>卖1</td><td>"+response.a1P+"</td><td>"+response.a1V+"</td></tr>";
-                thtml += "<tr><td>卖2</td><td>"+response.a2P+"</td><td>"+response.a2V+"</td></tr>";
-                thtml += "<tr><td>卖3</td><td>"+response.a3P+"</td><td>"+response.a3V+"</td></tr>";
-                thtml += "<tr><td>卖4</td><td>"+response.a4P+"</td><td>"+response.a4V+"</td></tr>";
-                thtml += "<tr><td>卖5</td><td>"+response.a5P+"</td><td>"+response.a5V+"</td></tr>";
+                var thtml = '<tr><td><span class="label red">买1</span></td><td>'+response.b1P+'</td><td>'+response.b1V+'</td></tr>';
+                thtml += '<tr><td><span class="label red">买2</span></td><td>'+response.b2P+'</td><td>'+response.b2V+'</td></tr>';
+                thtml += '<tr><td><span class="label red">买3</span></td><td>'+response.b3P+'</td><td>'+response.b3V+'</td></tr>';
+                thtml += '<tr><td><span class="label red">买4</span></td><td>'+response.b4P+'</td><td>'+response.b4V+'</td></tr>';
+                thtml += '<tr><td><span class="label red">买5</span></td><td>'+response.b5P+'</td><td>'+response.b5V+'</td></tr>';
+                thtml += '<tr><td><span class="label green">卖1</span></td><td>'+response.a1P+'</td><td>'+response.a1V+'</td></tr>';
+                thtml += '<tr><td><span class="label green">卖2</span></td><td>'+response.a2P+'</td><td>'+response.a2V+'</td></tr>';
+                thtml += '<tr><td><span class="label green">卖3</span></td><td>'+response.a3P+'</td><td>'+response.a3V+'</td></tr>';
+                thtml += '<tr><td><span class="label green">卖4</span></td><td>'+response.a4P+'</td><td>'+response.a4V+'</td></tr>';
+                thtml += '<tr><td><span class="label green">卖5</span></td><td>'+response.a5P+'</td><td>'+response.a5V+'</td></tr>';
 
                 document.getElementById("tableBody").innerHTML = thtml;
             },
@@ -212,8 +231,8 @@
                 "万  科Ａ"
         }
 
-        //dataRefresh();
-        setInterval('dataRefresh()',5000);
+        dataRefresh();
+//        setInterval('dataRefresh()',5000);
         $.ajax({
             type : "GET",
             url : "/restStock/getRestHistoryData/600000",
