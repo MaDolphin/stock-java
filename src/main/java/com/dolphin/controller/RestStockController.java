@@ -1,9 +1,6 @@
 package com.dolphin.controller;
 
-import com.dolphin.entity.HistoryData;
-import com.dolphin.entity.RealTick;
-import com.dolphin.entity.RestHistoryData;
-import com.dolphin.entity.TodayTick;
+import com.dolphin.entity.*;
 import com.dolphin.service.StockService;
 import org.springframework.web.bind.annotation.*;
 
@@ -62,6 +59,11 @@ public class RestStockController {
     @RequestMapping(value = "/getRestTodayTick/{stockId}", method = RequestMethod.GET)
     public List<TodayTick> getRestTodayTick(@PathVariable(value="stockId") String stockId) {
         return stockService.getTodayTick(stockId);
+    }
+
+    @RequestMapping(value = "/getRestPredictionData/{stockId}", method = RequestMethod.GET)
+    public List<PredictionData> getRestPredictionData(@PathVariable(value="stockId") String stockId) {
+        return stockService.getPredictionData(stockId);
     }
 
 

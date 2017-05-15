@@ -1,25 +1,28 @@
 package com.dolphin.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.dolphin.dao.StockRepository;
 import com.dolphin.entity.HistoryData;
+import com.dolphin.entity.PredictionData;
 import com.dolphin.entity.RealTick;
 import com.dolphin.entity.TodayTick;
 import com.dolphin.util.Convert;
 import com.dolphin.util.HttpClientUtil;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by I337852 on 5/3/2017.
  */
 @Service("stockService")
 public class StockService {
+
+    @Resource
+    private StockRepository stockRepository;
 
     private String hostUrl = "http://127.0.0.1:8000/";
 
@@ -105,6 +108,18 @@ public class StockService {
 
         }
         return traget;
+    }
+
+    public List<PredictionData> getPredictionData(String stockId){
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date time=null;
+        try {
+            time= sdf.parse(sdf.format(new Date()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        List<PredictionData> predictionDataList = stockRepository.findByStockAndDate(stockId,time);
+        return predictionDataList;
     }
 
 }
