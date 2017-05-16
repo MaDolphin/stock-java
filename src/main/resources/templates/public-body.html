@@ -36,7 +36,7 @@
                         <div class="tab-pane animated fadeIn text-muted" id="tab2">
                             <div class="box">
                                 <div class="box-body" style="padding: 0px">
-                                    <div id="containerCurrent" style="min-height: 530px;min-width: 100%"></div>
+                                    <div id="container1" style="min-height: 530px;min-width: 100%"></div>
                                 </div>
                             </div>
                         </div>
@@ -127,32 +127,6 @@
 <script src="../highchats/dark-unica.js"></script>
 <script>
 
-    function dataRefresh(){
-        $.ajax({
-            type : "GET",
-            url : "/restStock/getRestRealTick/600000",
-            dataType: "json",
-            success : function(response) {
-
-                var thtml = '<tr><td><span class="label red">买1</span></td><td>'+response.b1P+'</td><td>'+response.b1V+'</td></tr>';
-                thtml += '<tr><td><span class="label red">买2</span></td><td>'+response.b2P+'</td><td>'+response.b2V+'</td></tr>';
-                thtml += '<tr><td><span class="label red">买3</span></td><td>'+response.b3P+'</td><td>'+response.b3V+'</td></tr>';
-                thtml += '<tr><td><span class="label red">买4</span></td><td>'+response.b4P+'</td><td>'+response.b4V+'</td></tr>';
-                thtml += '<tr><td><span class="label red">买5</span></td><td>'+response.b5P+'</td><td>'+response.b5V+'</td></tr>';
-                thtml += '<tr><td><span class="label green">卖1</span></td><td>'+response.a1P+'</td><td>'+response.a1V+'</td></tr>';
-                thtml += '<tr><td><span class="label green">卖2</span></td><td>'+response.a2P+'</td><td>'+response.a2V+'</td></tr>';
-                thtml += '<tr><td><span class="label green">卖3</span></td><td>'+response.a3P+'</td><td>'+response.a3V+'</td></tr>';
-                thtml += '<tr><td><span class="label green">卖4</span></td><td>'+response.a4P+'</td><td>'+response.a4V+'</td></tr>';
-                thtml += '<tr><td><span class="label green">卖5</span></td><td>'+response.a5P+'</td><td>'+response.a5V+'</td></tr>';
-
-                document.getElementById("tableBody").innerHTML = thtml;
-            },
-            error : function(e) {
-                alert('Failed!: ' + e);
-            }
-        });
-    }
-
     $(function Chart() {
 //        {日期^1开盘价^2收盘价^3最高价^4最低价^5成交量^MA5^MA10^MA20^MA30}
         var crrentData =[];
@@ -227,8 +201,11 @@
                 "万  科Ａ"
         }
 
-        dataRefresh();
-//        setInterval('dataRefresh()',5000);
+//        SaleData List
+//        dataRefresh();
+        setInterval('dataRefresh()',5000);
+
+//        History Chart
         $.ajax({
             type: "GET",
             url: "/restStock/getRestHistoryData/600000",
@@ -240,12 +217,13 @@
                 alert('Failed!: ' + e);
             }
         });
+
+//        Current Chart
         $.ajax({
             type: "GET",
             url: "/restStock/getRestTodayTick/600000",
             dataType: "json",
             success : function(response) {
-                alert(response.size)
                 new currentChart(response);
             },
             error : function(e) {
@@ -255,23 +233,73 @@
 
     });
 
-    function currentChart(series) {
+    function dataRefresh(){
+        $.ajax({
+            type : "GET",
+            url : "/restStock/getRestRealTick/600000",
+            dataType: "json",
+            success : function(response) {
+
+                var thtml = '<tr><td><span class="label red">买1</span></td><td>'+response.b1P+'</td><td>'+response.b1V+'</td></tr>';
+                thtml += '<tr><td><span class="label red">买2</span></td><td>'+response.b2P+'</td><td>'+response.b2V+'</td></tr>';
+                thtml += '<tr><td><span class="label red">买3</span></td><td>'+response.b3P+'</td><td>'+response.b3V+'</td></tr>';
+                thtml += '<tr><td><span class="label red">买4</span></td><td>'+response.b4P+'</td><td>'+response.b4V+'</td></tr>';
+                thtml += '<tr><td><span class="label red">买5</span></td><td>'+response.b5P+'</td><td>'+response.b5V+'</td></tr>';
+                thtml += '<tr><td><span class="label green">卖1</span></td><td>'+response.a1P+'</td><td>'+response.a1V+'</td></tr>';
+                thtml += '<tr><td><span class="label green">卖2</span></td><td>'+response.a2P+'</td><td>'+response.a2V+'</td></tr>';
+                thtml += '<tr><td><span class="label green">卖3</span></td><td>'+response.a3P+'</td><td>'+response.a3V+'</td></tr>';
+                thtml += '<tr><td><span class="label green">卖4</span></td><td>'+response.a4P+'</td><td>'+response.a4V+'</td></tr>';
+                thtml += '<tr><td><span class="label green">卖5</span></td><td>'+response.a5P+'</td><td>'+response.a5V+'</td></tr>';
+
+                document.getElementById("tableBody").innerHTML = thtml;
+            },
+            error : function(e) {
+                alert('Failed!: ' + e);
+            }
+        });
+    }
+
+    function currentChart(seriesData) {
+        var globalSeries;
         Highcharts.setOptions({
             global: {
                 useUTC: false
             }
         });
         // Create the chart
-        $('#containerCurrent').highcharts('StockChart', {
+        Highcharts.StockChart({
             chart: {
+                renderTo : 'container1',
                 events: {
                     load : function () {
                         // set up the updating of the chart each second
                         var series = this.series[0];
                         setInterval(function () {
-                            var x = (new Date()).getTime(), // current time
-                                y = Math.round(Math.random() * 100);
-                            series.addPoint([x, y], true, true);
+                            $.ajax({
+                                type: "GET",
+                                url: "/restStock/getRestTodayTick/600000",
+                                dataType: "json",
+                                success : function(response) {
+                                    if(response.length > globalSeries.length){
+                                        var result = eval(response);
+                                        for(var i=globalSeries.length; i<response.length; i++){
+                                            var myDate = new Date();
+                                            var strDate = myDate.toLocaleDateString();
+                                            result[i].time = strDate +" "+result[i].time;
+                                            result[i].time = result[i].time.replace(/-/g,"/");
+                                            var datetime = new Date(result[i].time);
+                                            var price = result[i].price;
+                                            series.addPoint([datetime, price], true, true);
+                                        }
+                                    }
+                                },
+                                error : function(e) {
+                                    alert('Failed!: ' + e);
+                                }
+                            });
+//                            var x = (new Date()).getTime(), // current time
+//                                y = Math.round(Math.random() * 100);
+//                            series.addPoint([x, y], true, true);
                         }, 1000);
                     }
                 }
@@ -290,17 +318,32 @@
                     text: 'All'
                 }],
                 inputEnabled: false,
-                selected: 0
+                selected: 2
             },
             title: {
-                text : 'Live random data'
+                text : '股票实时价格'
             },
             exporting: {
                 enabled: false
             },
             series: [{
-                name: 'Random data',
-//
+                name: '价格',
+                data: (function () {
+                    var data = [];
+                    $.map(seriesData, function( item ) {
+                        var myDate = new Date();
+                        var strDate = myDate.toLocaleDateString();
+                        item.time = strDate +" "+item.time;
+                        item.time = item.time.replace(/-/g,"/");
+                        var datetime = new Date(item.time);
+                        data.push([
+                            datetime.getTime(),
+                            item.price
+                        ]);
+                    });
+                    globalSeries = data;
+                    return data;
+                }())
             }]
         });
     }

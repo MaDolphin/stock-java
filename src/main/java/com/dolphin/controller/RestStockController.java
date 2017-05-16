@@ -58,7 +58,9 @@ public class RestStockController {
 
     @RequestMapping(value = "/getRestTodayTick/{stockId}", method = RequestMethod.GET)
     public List<TodayTick> getRestTodayTick(@PathVariable(value="stockId") String stockId) {
-        return stockService.getTodayTick(stockId);
+        List<TodayTick> todayTickList = stockService.getTodayTick(stockId);
+        Collections.sort(todayTickList);
+        return todayTickList;
     }
 
     @RequestMapping(value = "/getRestPredictionData/{stockId}", method = RequestMethod.GET)

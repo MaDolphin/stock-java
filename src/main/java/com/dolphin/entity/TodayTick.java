@@ -111,6 +111,6 @@ public class TodayTick implements Comparable<TodayTick> {
 
     @Override
     public int compareTo(TodayTick todayTick) {
-        return Long.valueOf(this.getIndex()).compareTo(Long.valueOf(todayTick.getIndex()));
+        return Long.valueOf(todayTick.getIndex()).compareTo(Long.valueOf(this.getIndex()));
     }
 }
