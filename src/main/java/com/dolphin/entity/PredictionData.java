@@ -12,8 +12,8 @@ public class PredictionData {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @Column(name = "stock")
-    private String stock;
+    @Column(name = "stockid")
+    private String stockid;
     @Column(name = "date")
     private Date date;
     @Column(name = "type")
@@ -27,9 +27,8 @@ public class PredictionData {
         super();
     }
 
-    public PredictionData(int id, String stock, Date date, int type, double value, int order) {
-        this.id = id;
-        this.stock = stock;
+    public PredictionData(String stockid, Date date, int type, double value, int order) {
+        this.stockid = stockid;
         this.date = date;
         this.type = type;
         this.value = value;
@@ -44,12 +43,12 @@ public class PredictionData {
         this.id = id;
     }
 
-    public String getstock() {
-        return stock;
+    public String getStockid() {
+        return stockid;
     }
 
-    public void setstock(String stock) {
-        this.stock = stock;
+    public void setStockid(String stockid) {
+        this.stockid = stockid;
     }
 
     public Date getDate() {
@@ -88,7 +87,7 @@ public class PredictionData {
     public String toString() {
         return "PredictionData{" +
                 "id=" + id +
-                ", stock='" + stock + '\'' +
+                ", stockid='" + stockid + '\'' +
                 ", date=" + date +
                 ", type=" + type +
                 ", value=" + value +

@@ -95,7 +95,7 @@ public class StockService {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            System.out.println(temp.getDate().toString());
+//            System.out.println(temp.getDate().toString());
             historyData.add(temp);
         }
         return historyData;
@@ -118,7 +118,9 @@ public class StockService {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        List<PredictionData> predictionDataList = stockRepository.findByStockAndDate(stockId,time);
+//        System.out.println(time);
+//        List<PredictionData> predictionDataList = stockRepository.findByStockidAndDate(stockId,time);
+        List<PredictionData> predictionDataList = stockRepository.findAll();
         return predictionDataList;
     }
 

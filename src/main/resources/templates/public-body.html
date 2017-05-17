@@ -13,13 +13,13 @@
                     <div class="b-b b-primary nav-active-primary">
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
-                                <a class="nav-link active" href="" data-toggle="tab" data-target="#tab1">历史行情</a>
+                                <a class="nav-link active" href="" data-toggle="tab" data-target="#tab1" onclick="tabClick()">历史行情</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="" data-toggle="tab" data-target="#tab2">实时行情</a>
+                                <a class="nav-link" href="" data-toggle="tab" data-target="#tab2" onclick="tabClick()">实时行情</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="" data-toggle="tab" data-target="#tab3">行情预测</a>
+                                <a class="nav-link" href="" data-toggle="tab" data-target="#tab3" onclick="tabClick()">行情预测</a>
                             </li>
                         </ul>
                     </div>
@@ -33,15 +33,19 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane animated fadeIn text-muted" id="tab2">
+                        <div class="tab-pane animated fadeIn text-muted active" id="tab2">
                             <div class="box">
                                 <div class="box-body" style="padding: 0px">
                                     <div id="container1" style="min-height: 530px;min-width: 100%"></div>
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane animated fadeIn text-muted" id="tab3">
-                            UI kits
+                        <div class="tab-pane animated fadeIn text-muted active" id="tab3">
+                            <div class="box">
+                                <div class="box-body" style="padding: 0px">
+                                    <div id="container2" style="min-height: 530px;min-width: 100%"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -94,17 +98,7 @@
 
                             <!--</div>-->
 
-                            <div class="box p-a">
-                                <div class=" pull-left m-r ">
-                                    <i class="fa fa-jpy text-success" style="font-size: 36px; ;padding-right: 10px;padding-left: 20px"></i><h1 class="_800 l-s-n-4x inline m-r-sm text-success">7530</h1>
-
-                                </div>
-                                <div class="clear">
-                                    <h2 class="m-a-0 text-md _600">&nbsp;</h2>
-                                    <td class="text-success">
-                                        <i class="fa fa-arrow-down text-success"></i><a class="text-success">40%</a>
-                                    </td>
-                                </div>
+                            <div class="box p-a" id="priceBoard">
 
                             </div>
 
@@ -125,6 +119,7 @@
 <script src="../highchats/highstock.js"></script>
 <script src="../highchats/chartExt.js"></script>
 <script src="../highchats/dark-unica.js"></script>
+<script src="../highchats/commonutil.js"></script>
 <script>
 
     $(function Chart() {
@@ -231,7 +226,70 @@
             }
         });
 
+//        Prediction Chart
+        $.ajax({
+            type: "GET",
+            url: "/restStock/getRestHistoryTime/600000",
+            dataType: "json",
+            success : function(response) {
+                var realTime = [];
+                var result = eval(response);
+                for(var i=response.length-20;isLarger(response.length,i); i++){
+                    realTime.push([
+                        result[i].date
+                    ]);
+                }
+                new predictionChartCreate(realTime);
+            },
+            error : function(e) {
+                alert('Failed!: ' + e);
+            }
+        });
+
     });
+
+    function predictionChartCreate(realTime) {
+        $.ajax({
+            type: "GET",
+            url: "/restStock/getRestPredictionData/600000",
+            dataType: "json",
+            success : function(response) {
+                var realData = [];
+                var predictionData = [];
+                var real = 0;
+                var prediction = 0;
+                $.map(response, function( item ) {
+                    if(item.type == 0){
+                        realData.push([
+                            realTime[real],
+                            item.value
+                        ]);
+                        real++;
+                    }else{
+                        if(prediction == 20){
+                            var myDate = new Date();
+                            predictionData.push([
+                                GetDateStr(1),
+                                item.value
+                            ]);
+                        }else {
+                            predictionData.push([
+                                realTime[prediction],
+                                item.value
+                            ]);
+                            prediction++;
+                        }
+
+                    }
+                });
+//                alert(predictionData.length);
+                new predictionChart(realData,predictionData);
+            },
+            error : function(e) {
+                alert('Failed!: ' + e);
+            }
+        });
+    }
 
     function dataRefresh(){
         $.ajax({
@@ -252,6 +310,36 @@
                 thtml += '<tr><td><span class="label green">卖5</span></td><td>'+response.a5P+'</td><td>'+response.a5V+'</td></tr>';
 
                 document.getElementById("tableBody").innerHTML = thtml;
+
+                var phtml;
+                var rate = (response.price - response.preClose)*100/response.preClose;
+                rate = rate.toFixed(2);
+
+                if(isLarger(response.preClose,response.price)){
+                    phtml = '<div class=" pull-left m-r ">';
+                    phtml += '<i class="fa fa-jpy text-success" style="font-size: 36px; ;padding-right: 10px;padding-left: 20px"></i><h1 class="_800 l-s-n-4x inline m-r-sm text-success">'+response.price+'</h1>';
+                    phtml += '</div>';
+                    phtml += '<div class="clear">';
+                    phtml += '<h2 class="m-a-0 text-md _600">&nbsp;</h2>';
+                    phtml += '<td class="text-success">';
+                    phtml += '<i class="fa fa-arrow-down text-success"></i><a class="text-success"> '+rate+'%</a>';
+                    phtml += '</td>';
+                    phtml += '</div>';
+                    document.getElementById("priceBoard").innerHTML = phtml;
+
+                }else{
+
+                    phtml = '<div class=" pull-left m-r ">';
+                    phtml += '<i class="fa fa-jpy text-warning" style="font-size: 36px; ;padding-right: 10px;padding-left: 20px"></i><h1 class="_800 l-s-n-4x inline m-r-sm text-success">'+response.price+'</h1>';
+                    phtml += '</div>';
+                    phtml += '<div class="clear">';
+                    phtml += '<h2 class="m-a-0 text-md _600">&nbsp;</h2>';
+                    phtml += '<td class="text-success">';
+                    phtml += '<i class="fa fa-arrow-down text-warning"></i><a class="text-warning"> '+rate+'%</a>';
+                    phtml += '</td>';
+                    phtml += '</div>';
+                    document.getElementById("priceBoard").innerHTML = phtml;
+                }
             },
             error : function(e) {
                 alert('Failed!: ' + e);
@@ -280,9 +368,9 @@
                                 url: "/restStock/getRestTodayTick/600000",
                                 dataType: "json",
                                 success : function(response) {
-                                    if(response.length > globalSeries.length){
+                                    if(isLarger(response.length,globalSeries.length)){
                                         var result = eval(response);
-                                        for(var i=globalSeries.length; i<response.length; i++){
+                                        for(var i=globalSeries.length; isLarger(response.length,i); i++){
                                             var myDate = new Date();
                                             var strDate = myDate.toLocaleDateString();
                                             result[i].time = strDate +" "+result[i].time;
@@ -300,7 +388,7 @@
 //                            var x = (new Date()).getTime(), // current time
 //                                y = Math.round(Math.random() * 100);
 //                            series.addPoint([x, y], true, true);
-                        }, 1000);
+                        }, 5000);
                     }
                 }
             },
@@ -319,6 +407,9 @@
                 }],
                 inputEnabled: false,
                 selected: 2
+            },
+            credits:{
+                enabled:false
             },
             title: {
                 text : '股票实时价格'
@@ -346,6 +437,51 @@
                 }())
             }]
         });
+    }
+
+    function predictionChart(realData,predictionData) {
+        Highcharts.StockChart({
+            chart: {
+                renderTo : 'container2',
+                margin: [30, 30,30, 30],
+            },
+            credits:{
+                enabled:false
+            },
+            rangeSelector : {
+                enable: false
+            },
+            title: {
+                text : '股票趋势预测'
+            },
+            xAxis: {
+                enable: false,
+            },
+            series : [{
+                name : '真实',
+                data : realData,
+                tooltip: {
+                    valueDecimals: 1
+                }
+                },{
+                name : '预测',
+                data : predictionData,
+                tooltip: {
+                    valueDecimals: 1
+                }
+            }]
+        });
+    }
+    
+    function tabClick() {
+//        $("#container").resize;
+//        $("#container1").resize;
+//        $("#container2").resize;
+        var obj = document.getElementById("highcharts-0");
+        obj.style.cssText = "width: 1300px;"
+//        $("#tab1").resize;
+//        $("#tab2").resize;
+//        $("#tab3").resize;
     }
 
 </script>

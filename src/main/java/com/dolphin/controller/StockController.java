@@ -23,7 +23,7 @@ public class StockController {
     @Resource
     private StockService stockService;
 
-    @Autowired
+    @Resource
     private Sender sender;
 
     @RequestMapping("/index")
@@ -31,13 +31,6 @@ public class StockController {
 
 //        model.addAttribute("name", "Dolphin");
         return "index";
-    }
-
-    @RequestMapping("/rabbitmq")
-    public String hello() {
-        String context = "601766";
-        sender.send(context);
-        return "Hello World!";
     }
 
     @RequestMapping("/todayTick")

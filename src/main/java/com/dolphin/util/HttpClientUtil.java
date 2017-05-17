@@ -21,24 +21,24 @@ public class HttpClientUtil {
         try {
             // 创建httpget.
             HttpGet httpget = new HttpGet(url);
-            System.out.println("executing request " + httpget.getURI());
+//            System.out.println("executing request " + httpget.getURI());
             // 执行get请求.
             CloseableHttpResponse response = httpclient.execute(httpget);
             try {
                 // 获取响应实体
                 HttpEntity entity = response.getEntity();
-                System.out.println("--------------------------------------");
+//                System.out.println("--------------------------------------");
                 // 打印响应状态
-                System.out.println(response.getStatusLine());
+//                System.out.println(response.getStatusLine());
                 if (entity != null) {
                     // 打印响应内容长度
-                    System.out.println("Response content length: " + entity.getContentLength());
+//                    System.out.println("Response content length: " + entity.getContentLength());
                     // 打印响应内容
                     String str = EntityUtils.toString(entity);
-                    System.out.println("Response content: " + str);
+//                    System.out.println("Response content: " + str);
                     return str;
                 }
-                System.out.println("------------------------------------");
+//                System.out.println("------------------------------------");
             } finally {
                 response.close();
             }

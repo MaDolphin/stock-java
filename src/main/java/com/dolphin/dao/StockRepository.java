@@ -17,12 +17,9 @@ import java.util.List;
 public interface  StockRepository extends JpaRepository<PredictionData, Integer> {
 
     @Modifying
-    public List<PredictionData> findByStockAndDate(String stock, Date date);
+    public List<PredictionData> findByStockidAndDate(String stockid, Date date);
 
     @Modifying
-    public List<PredictionData> findByStock(String stock);
-
-    @Modifying
-    public List<PredictionData> findByType(int type);
+    public List<PredictionData> findAll();
 
 }
