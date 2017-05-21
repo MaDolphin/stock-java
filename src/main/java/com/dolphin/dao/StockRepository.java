@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -16,8 +16,8 @@ import java.util.List;
 @Repository
 public interface  StockRepository extends JpaRepository<PredictionData, Integer> {
 
-    @Modifying
-    public List<PredictionData> findByStockidAndDate(String stockid, Date date);
+    @Query("select p from PredictionData p where p.stockid=?1 and p.date=?2")
+    public List<PredictionData> findByStockidAndDate(String stockId, Date date);
 
     @Modifying
     public List<PredictionData> findAll();

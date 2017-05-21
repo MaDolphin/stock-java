@@ -1,17 +1,17 @@
 package com.dolphin.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.dolphin.dao.CodeRepository;
 import com.dolphin.dao.StockRepository;
-import com.dolphin.entity.HistoryData;
-import com.dolphin.entity.PredictionData;
-import com.dolphin.entity.RealTick;
-import com.dolphin.entity.TodayTick;
+import com.dolphin.entity.*;
 import com.dolphin.util.Convert;
+import com.dolphin.util.DateUtil;
 import com.dolphin.util.HttpClientUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -23,6 +23,9 @@ public class StockService {
 
     @Resource
     private StockRepository stockRepository;
+
+    @Resource
+    private CodeRepository codeRepository;
 
     private String hostUrl = "http://127.0.0.1:8000/";
 
@@ -45,6 +48,36 @@ public class StockService {
             strTemp = strTemp.replaceAll("u","\\\\\\u");
 //            System.out.println(strTemp);
             temp.setType(Convert.decodeUnicode(strTemp));
+            todayTick.add(temp);
+        }
+        return todayTick;
+    }
+
+    public List<TodayTick> getTodayDateTick(String stockId){
+        Calendar calendar = Calendar.getInstance();
+        Date date = new Date(System.currentTimeMillis());
+        calendar.setTime(date);
+        calendar.add(Calendar.WEEK_OF_YEAR, -1);
+        date = calendar.getTime();
+        String url = hostUrl + "todaydate_tick/?id=" + stockId + "&date=" + DateUtil.getFriday(date);
+        String str = HttpClientUtil.get(url);
+        str = str.replaceAll("\\\\","");
+        str = str.substring(1, str.length());
+        str = str.substring(0,str.length()-1);
+        str = Convert.camelCaseName(str);
+        List<TodayTick> todayTick = new ArrayList<TodayTick>();
+        TodayTick temp = new TodayTick();
+        JSONObject jsonObject = JSONObject.parseObject(str);
+        for (Map.Entry<String, Object> entry : jsonObject.entrySet()) {
+//            System.out.println(entry.getKey() + ":" + entry.getValue());
+            JSONObject result = jsonObject.getJSONObject(entry.getKey().toString());
+            temp = JSONObject.parseObject(result.toJSONString(), TodayTick.class);
+            temp.setIndex(Integer.valueOf(entry.getKey()));
+            String strTemp = temp.getType();
+            strTemp = strTemp.replaceAll("u","\\\\\\u");
+//            System.out.println(strTemp);
+            temp.setType(Convert.decodeUnicode(strTemp));
+            temp.setPchange(0.0);
             todayTick.add(temp);
         }
         return todayTick;
@@ -101,27 +134,33 @@ public class StockService {
         return historyData;
     }
 
-    public String getHistoryDatatoString(String stockId){
-        String traget = null;
-        List<HistoryData> list = this.getHistoryData(stockId);
-        for(int i=0;i<list.size();i++){
-
-        }
-        return traget;
-    }
-
     public List<PredictionData> getPredictionData(String stockId){
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-        java.util.Date time=null;
+        java.sql.Date sqlDate = null;
+        Calendar calendar = Calendar.getInstance();
+        Date date = new Date(System.currentTimeMillis());
+        calendar.setTime(date);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String time = dateFormat.format(calendar.getTime());
         try {
-            time= sdf.parse(sdf.format(new Date()));
+            java.util.Date utilDate = dateFormat.parse(time);
+            sqlDate = new java.sql.Date(utilDate.getTime());
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
 //        System.out.println(time);
-//        List<PredictionData> predictionDataList = stockRepository.findByStockidAndDate(stockId,time);
-        List<PredictionData> predictionDataList = stockRepository.findAll();
+        List<PredictionData> predictionDataList = stockRepository.findByStockidAndDate(stockId,sqlDate);
+//        List<PredictionData> predictionDataList = stockRepository.findAll();
         return predictionDataList;
+
+    }
+
+    public List<StockCode> findLikeCodeOrName(String str){
+        return codeRepository.findLikeCodeOrName(str);
+    }
+
+    public StockCode findByCodeOrName(String str){
+        return codeRepository.findByCodeOrName(str);
     }
 
 }

@@ -1,7 +1,9 @@
 package com.dolphin.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
 
 /**
  * Created by I337852 on 5/15/2017.
@@ -12,14 +14,19 @@ public class PredictionData {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
     @Column(name = "stockid")
     private String stockid;
+
     @Column(name = "date")
     private Date date;
+
     @Column(name = "type")
     private int type;
+
     @Column(name = "value")
     private double value;
+
     @Column(name = "order")
     private int order;
 

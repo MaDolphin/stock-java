@@ -6,6 +6,8 @@ import com.dolphin.service.StockService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -69,7 +71,24 @@ public class RestStockController {
 
     @RequestMapping(value = "/getRestTodayTick/{stockId}", method = RequestMethod.GET)
     public List<TodayTick> getRestTodayTick(@PathVariable(value="stockId") String stockId) {
-        List<TodayTick> todayTickList = stockService.getTodayTick(stockId);
+        List<TodayTick> todayTickList = new ArrayList<TodayTick>();
+        Calendar now = Calendar.getInstance();
+        //一周第一天是否为星期天
+        boolean isFirstSunday = (now.getFirstDayOfWeek() == Calendar.SUNDAY);
+        //获取周几
+        int weekDay = now.get(Calendar.DAY_OF_WEEK);
+        //若一周第一天为星期天，则-1
+        if(isFirstSunday){
+            weekDay = weekDay - 1;
+            if(weekDay == 0){
+                weekDay = 7;
+            }
+        }
+        if(weekDay == 6 || weekDay == 7){
+            todayTickList = stockService.getTodayDateTick(stockId);
+        }else {
+            todayTickList = stockService.getTodayTick(stockId);
+        }
         Collections.sort(todayTickList);
         return todayTickList;
     }

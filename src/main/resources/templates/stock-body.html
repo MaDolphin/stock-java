@@ -56,12 +56,12 @@
                         <div class="col-xs-12">
                             <div class="box p-a" style="margin-bottom: 10px">
                                 <div class=" pull-left m-r">
-                                    <h1 class="_800 l-s-n-x inline m-r-sm">浦发银行</h1>
+                                    <h1 class="_800 l-s-n-x inline m-r-sm" th:text="${session.stock.name}">Name</h1>
 
                                 </div>
                                 <div class="clear">
                                     <h2 class="m-a-0 text-md _600">&nbsp;</h2>
-                                    <td >600000</td>
+                                    <td th:text="${session.stock.code}">Code</td>
                                 </div>
 
                             </div>
@@ -85,18 +85,6 @@
                         </div>
 
                         <div class="col-xs-12">
-                            <!--<div class="box">-->
-                                <!--&lt;!&ndash;<div class="box-header">&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<h3>Your Sales</h3>&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<small>A general overview of your sales</small>&ndash;&gt;-->
-                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                                <!--<h1 class="_800 l-s-n-4x inline m-r-sm">5,600</h1>-->
-                                <!--<span class="inline l-h-1x">-->
-                                  <!--Markets <br>-->
-                                  <!--<small class="text-muted">From africa to asia</small>-->
-                                <!--</span>-->
-
-                            <!--</div>-->
 
                             <div class="box p-a" id="priceBoard">
 
@@ -121,12 +109,18 @@
 <script src="../highchats/dark-unica.js"></script>
 <script src="../highchats/commonutil.js"></script>
 <script>
-
+    var code;
     var globalCurrentStockTick;
     var globalPredictionStockData;
     var globalRealData;
 
-    $(function Chart() {
+    $(function () {
+        code = getUrlParam('code');
+        Chart();
+    });
+
+
+    function Chart() {
 //        {日期^1开盘价^2收盘价^3最高价^4最低价^5成交量^MA5^MA10^MA20^MA30}
         var crrentData =[];
 //        {日期^1开盘价^2收盘价^3最高价^4最低价^5成交量^6成交额^7涨跌幅^8涨跌额^9换手率^10昨日收盘价^11MA5^12MA10^13MA20^14MA30^15MA60}
@@ -150,7 +144,7 @@
 //        History Chart
         $.ajax({
             type: "GET",
-            url: "/restStock/getRestHistoryData/600000",
+            url: "/restStock/getRestHistoryData/"+code,
             dataType: "json",
             success : function(response) {
                 new highStockChart('container',response,crrentData);
@@ -163,7 +157,7 @@
 //        Current Chart
         $.ajax({
             type: "GET",
-            url: "/restStock/getRestTodayTick/600000",
+            url: "/restStock/getRestTodayTick/"+code,
             dataType: "json",
             success : function(response) {
                 globalCurrentStockTick = response;
@@ -176,7 +170,7 @@
 //        Prediction Chart
         $.ajax({
             type: "GET",
-            url: "/restStock/getRestHistoryTime/600000",
+            url: "/restStock/getRestHistoryTime/"+code,
             dataType: "json",
             success : function(response) {
                 var realTime = [];
@@ -193,12 +187,12 @@
             }
         });
 
-    });
+    }
 
     function predictionChartCreate(realTime) {
         $.ajax({
             type: "GET",
-            url: "/restStock/getRestPredictionData/600000",
+            url: "/restStock/getRestPredictionData/"+code,
             dataType: "json",
             success : function(response) {
                 var realData = [];
@@ -242,7 +236,7 @@
     function dataRefresh(){
         $.ajax({
             type : "GET",
-            url : "/restStock/getRestRealTick/600000",
+            url : "/restStock/getRestRealTick/"+code,
             dataType: "json",
             success : function(response) {
 
@@ -278,12 +272,12 @@
                 }else{
 
                     phtml = '<div class=" pull-left m-r ">';
-                    phtml += '<i class="fa fa-jpy text-warning" style="font-size: 36px; ;padding-right: 10px;padding-left: 20px"></i><h1 class="_800 l-s-n-4x inline m-r-sm text-success">'+response.price+'</h1>';
+                    phtml += '<i class="fa fa-jpy text-danger" style="font-size: 36px; ;padding-right: 10px;padding-left: 20px"></i><h1 class="_800 l-s-n-4x inline m-r-sm text-danger">'+response.price+'</h1>';
                     phtml += '</div>';
                     phtml += '<div class="clear">';
                     phtml += '<h2 class="m-a-0 text-md _600">&nbsp;</h2>';
-                    phtml += '<td class="text-success">';
-                    phtml += '<i class="fa fa-arrow-down text-warning"></i><a class="text-warning"> '+rate+'%</a>';
+                    phtml += '<td class="text-danger">';
+                    phtml += '<i class="fa fa-arrow-down text-danger"></i><a class="text-danger"> '+rate+'%</a>';
                     phtml += '</td>';
                     phtml += '</div>';
                     document.getElementById("priceBoard").innerHTML = phtml;
@@ -313,7 +307,7 @@
                         setInterval(function () {
                             $.ajax({
                                 type: "GET",
-                                url: "/restStock/getRestTodayTick/600000",
+                                url: "/restStock/getRestTodayTick/"+code,
                                 dataType: "json",
                                 success : function(response) {
                                     if(isLarger(response.length,globalSeries.length)){
@@ -434,7 +428,12 @@
 
     function tabThreeClick() {
         changeStatus("tab3","tab1","tab2");
-        new predictionChart(globalRealData,globalPredictionStockData);
+        if(globalPredictionStockData == null){
+            alert("系统正在紧张预测中，请稍后重试！");
+        }else {
+            new predictionChart(globalRealData,globalPredictionStockData);
+        }
+
 
     }
     function changeStatus(id1,id2,id3){
