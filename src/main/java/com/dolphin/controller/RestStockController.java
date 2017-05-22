@@ -95,7 +95,16 @@ public class RestStockController {
 
     @RequestMapping(value = "/getRestPredictionData/{stockId}", method = RequestMethod.GET)
     public List<PredictionData> getRestPredictionData(@PathVariable(value="stockId") String stockId) {
-        return stockService.getPredictionData(stockId);
+        List<PredictionData> predictionDataList = stockService.getPredictionData(stockId);
+        if(predictionDataList.size() == 0){
+            sender.send(stockId);
+        }
+        return predictionDataList;
+    }
+
+    @RequestMapping(value = "/searchStock/{str}", method = RequestMethod.GET)
+    public List<StockCode> searchStock(@PathVariable(value="str") String str) {
+        return stockService.findLikeCodeOrName(str);
     }
 
     @RequestMapping("/rabbitmq")

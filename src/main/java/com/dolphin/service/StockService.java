@@ -1,8 +1,8 @@
 package com.dolphin.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.dolphin.dao.CodeRepository;
-import com.dolphin.dao.StockRepository;
+import com.dolphin.dao.PredictionMapper;
+import com.dolphin.dao.StocklistMapper;
 import com.dolphin.entity.*;
 import com.dolphin.util.Convert;
 import com.dolphin.util.DateUtil;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -22,10 +21,10 @@ import java.util.*;
 public class StockService {
 
     @Resource
-    private StockRepository stockRepository;
+    private PredictionMapper predictionMapper;
 
     @Resource
-    private CodeRepository codeRepository;
+    private StocklistMapper stocklistMapper;
 
     private String hostUrl = "http://127.0.0.1:8000/";
 
@@ -135,32 +134,26 @@ public class StockService {
     }
 
     public List<PredictionData> getPredictionData(String stockId){
-        java.sql.Date sqlDate = null;
         Calendar calendar = Calendar.getInstance();
         Date date = new Date(System.currentTimeMillis());
         calendar.setTime(date);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String time = dateFormat.format(calendar.getTime());
-        try {
-            java.util.Date utilDate = dateFormat.parse(time);
-            sqlDate = new java.sql.Date(utilDate.getTime());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
 
-//        System.out.println(time);
-        List<PredictionData> predictionDataList = stockRepository.findByStockidAndDate(stockId,sqlDate);
-//        List<PredictionData> predictionDataList = stockRepository.findAll();
+        List<PredictionData> predictionDataList = predictionMapper.findByStockidAndDate(stockId,time);
+
         return predictionDataList;
 
     }
 
     public List<StockCode> findLikeCodeOrName(String str){
-        return codeRepository.findLikeCodeOrName(str);
+        List<StockCode> stockCodeList = stocklistMapper.findLikeCodeOrName(str);
+        return stockCodeList;
     }
 
     public StockCode findByCodeOrName(String str){
-        return codeRepository.findByCodeOrName(str);
+        StockCode stockCode = stocklistMapper.findByCodeOrName(str);
+        return stockCode;
     }
 
 }

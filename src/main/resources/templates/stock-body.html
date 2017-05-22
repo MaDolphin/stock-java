@@ -109,16 +109,23 @@
 <script src="../highchats/dark-unica.js"></script>
 <script src="../highchats/commonutil.js"></script>
 <script>
-    var code;
-    var globalCurrentStockTick;
-    var globalPredictionStockData;
-    var globalRealData;
+    var code = null;
+    var globalCurrentStockTick = null;
+    var globalPredictionStockData = null;
+    var globalRealData = null;
 
     $(function () {
+        code = null;
+        globalCurrentStockTick = null;
+        globalPredictionStockData = null;
+        globalRealData = null;
         code = getUrlParam('code');
         Chart();
     });
 
+    function homepage(){
+        document.location   = "./index";
+    }
 
     function Chart() {
 //        {日期^1开盘价^2收盘价^3最高价^4最低价^5成交量^MA5^MA10^MA20^MA30}

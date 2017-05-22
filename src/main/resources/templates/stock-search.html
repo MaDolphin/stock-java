@@ -13,7 +13,7 @@
             </div>
 
             <form action="/stock/search" class="m-b-md" method="post">
-                <div class="input-group input-group-lg" style="padding-left: 10%;padding-right: 10%">
+                <div class="input-group input-group-lg" style="padding-left: 20%;padding-right: 20%">
                     <input type="text" id="tags" name="tags" class="form-control" placeholder="股票代号或名称"/>
                     <span class="input-group-btn">
                     <button class="btn b-a no-shadow white" type="submit">Search</button>
@@ -28,5 +28,35 @@
     </div>
 
 </div>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+
+    $("#tags").autocomplete({
+        source: function( request, response ) {
+            var str = $("#tags").val();
+            $.ajax({
+                type: "get",
+                url: "/restStock/searchStock/"+str,
+                dataType: "json",
+                success: function( data ) {
+                    // alert(data.indexSearchJSON.couName)
+                    response( $.map( data, function( item ) {
+                        return {
+                            // data: item,
+                            label: item.name+" ("+item.code+")",
+                            value: item.code
+                        };
+                    }));
+                }
+            });
+        },
+        minLength: 1,
+        max: 15,
+        autoFill: true,
+    });
+
+</script>
 </body>
 </html>

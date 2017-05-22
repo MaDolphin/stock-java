@@ -1,16 +1,11 @@
 package com.dolphin.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 /**
  * Created by huang on 2017/5/21.
  */
-@Entity
-@Table(name="stocklist")
+
 public class StockCode {
-    @Id
+
     private String code;
 
     private String name;

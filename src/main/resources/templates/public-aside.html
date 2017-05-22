@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
+
+<head>
+</head>
 <body>
 <div th:fragment="aside">
     <div id="aside" class="app-aside modal fade nav-dropdown folded">
@@ -18,7 +21,7 @@
                 <nav class="scroll nav-light">
                     <ul class="nav" ui-nav="">
                         <li>
-                            <a href="/stock/index" target="body">
+                            <a onclick="homepage()">
                               <span class="nav-icon">
                                 <i class="material-icons">&#xe3fc;
                                   <span ui-include="'../assets/images/i_0.svg'"></span>
