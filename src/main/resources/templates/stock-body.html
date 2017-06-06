@@ -326,7 +326,7 @@
                                             result[i].time = result[i].time.replace(/-/g,"/");
                                             var datetime = new Date(result[i].time);
                                             var price = result[i].price;
-                                            series.addPoint([datetime, price], true, true);
+                                            series.addPoint([datetime.getTime(), price], true, true);
                                         }
                                     }
                                 },
