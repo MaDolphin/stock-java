@@ -36,14 +36,14 @@
                         <div class="tab-pane animated fadeIn text-muted" id="tab2">
                             <div class="box">
                                 <div class="box-body" style="padding: 0px">
-                                    <div id="container1" style="min-height: 530px;min-width: 100%"></div>
+                                    <div id="container1" style="min-height: 600px;min-width: 100%"></div>
                                 </div>
                             </div>
                         </div>
                         <div class="tab-pane animated fadeIn text-muted" id="tab3">
                             <div class="box">
                                 <div class="box-body" style="padding: 0px">
-                                    <div id="container2" style="min-height: 530px;min-width: 100%"></div>
+                                    <div id="container2" style="min-height: 600px;min-width: 100%"></div>
                                 </div>
                             </div>
                         </div>
@@ -113,6 +113,8 @@
     var globalCurrentStockTick = null;
     var globalPredictionStockData = null;
     var globalRealData = null;
+    var currentFlag = true;
+    var predictionFlag = true;
 
     $(function () {
         code = null;
@@ -429,7 +431,11 @@
 
     function tabTwoClick() {
         changeStatus("tab2","tab1","tab3");
-        new currentChart(globalCurrentStockTick);
+        if(currentFlag == true){
+            new currentChart(globalCurrentStockTick);
+            currentFlag = false;
+        }
+
 
     }
 
@@ -438,7 +444,11 @@
         if(globalPredictionStockData.length == 0){
             alert("系统正在紧张预测中，请稍后重试！");
         }else {
-            new predictionChart(globalRealData,globalPredictionStockData);
+            if(predictionFlag == true){
+                new predictionChart(globalRealData,globalPredictionStockData);
+                predictionFlag = false;
+            }
+
         }
 
 
