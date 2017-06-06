@@ -435,7 +435,7 @@
 
     function tabThreeClick() {
         changeStatus("tab3","tab1","tab2");
-        if(globalPredictionStockData == null){
+        if(globalPredictionStockData.length == 0){
             alert("系统正在紧张预测中，请稍后重试！");
         }else {
             new predictionChart(globalRealData,globalPredictionStockData);
