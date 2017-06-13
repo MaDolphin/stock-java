@@ -3,6 +3,7 @@ package com.dolphin.controller;
 import com.dolphin.entity.*;
 import com.dolphin.rabbit.Sender;
 import com.dolphin.service.StockService;
+import com.dolphin.util.DateUtil;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -85,9 +86,17 @@ public class RestStockController {
             }
         }
         if(weekDay == 6 || weekDay == 7){
-            todayTickList = stockService.getTodayDateTick(stockId);
+            todayTickList = stockService.getTodayDateTick(stockId,"week");
         }else {
-            todayTickList = stockService.getTodayTick(stockId);
+            Calendar cnow = Calendar.getInstance();
+            String time = now.get(Calendar.HOUR_OF_DAY) + ":" + now.get(Calendar.MINUTE);
+            System.out.println(time);
+            if(DateUtil.isInTime("00:00-09:30", time)){
+                todayTickList = stockService.getTodayDateTick(stockId,"day");
+            }else {
+                todayTickList = stockService.getTodayTick(stockId);
+            }
+
         }
         Collections.sort(todayTickList);
         return todayTickList;

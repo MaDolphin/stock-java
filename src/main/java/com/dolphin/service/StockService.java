@@ -32,6 +32,7 @@ public class StockService {
         String url = hostUrl + "today_tick/?id=" + stockId;
         String str = HttpClientUtil.get(url);
         str = str.replaceAll("\\\\","");
+//        str = str.replaceAll("--","0");
         str = str.substring(1, str.length());
         str = str.substring(0,str.length()-1);
         str = Convert.camelCaseName(str);
@@ -52,13 +53,18 @@ public class StockService {
         return todayTick;
     }
 
-    public List<TodayTick> getTodayDateTick(String stockId){
+    public List<TodayTick> getTodayDateTick(String stockId,String day){
+        String url = null;
         Calendar calendar = Calendar.getInstance();
         Date date = new Date(System.currentTimeMillis());
         calendar.setTime(date);
         calendar.add(Calendar.WEEK_OF_YEAR, -1);
         date = calendar.getTime();
-        String url = hostUrl + "todaydate_tick/?id=" + stockId + "&date=" + DateUtil.getFriday(date);
+        if(day.equals("week")){
+            url = hostUrl + "todaydate_tick/?id=" + stockId + "&date=" + DateUtil.getFriday(date);
+        }else {
+            url = hostUrl + "todaydate_tick/?id=" + stockId + "&date=" + DateUtil.afterNDay(-1);
+        }
         String str = HttpClientUtil.get(url);
         str = str.replaceAll("\\\\","");
         str = str.substring(1, str.length());
