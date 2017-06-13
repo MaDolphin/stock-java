@@ -90,7 +90,7 @@ public class RestStockController {
         }else {
             Calendar cnow = Calendar.getInstance();
             String time = now.get(Calendar.HOUR_OF_DAY) + ":" + now.get(Calendar.MINUTE);
-            System.out.println(time);
+//            System.out.println(time);
             if(DateUtil.isInTime("00:00-09:30", time)){
                 todayTickList = stockService.getTodayDateTick(stockId,"day");
             }else {
